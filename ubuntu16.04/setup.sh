@@ -51,15 +51,18 @@ if [ -z $(git config user.name) ]; then
     echo "username:"
     read git_name
     git config --global user.name $git_name
+    git config --global credential.https://github.com $git_name
 fi
 if [ -z $(git config user.email) ]; then
     echo "email:"
     read git_email
     git config --global user.email $git_email
 fi
+git config --global push.default simple
 git config --global core.editor vim
 git config --global color.ui auto
 git config --global ui.abbrevCommit yes
+git config --global credential.helper 'cache --timeout=3600'
 
 echo "Setup a Develpment environment? [Y/n]"
 read is_dev

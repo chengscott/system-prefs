@@ -41,10 +41,16 @@ gsettings set org.gnome.desktop.wm.preferences theme "Paper"
 echo "---------------Install Powerline---------------"
 $sudo -H pip install setuptools
 $sudo -H pip install git+git://github.com/Lokaltog/powerline
+echo "
+# powerline
+powerline-daemon -q
+source /usr/local/lib/python2.7/dist-packages/powerline/bindings/bash/powerline.sh
+" >> ~/.bashrc 
 
 echo "---------------Copying Vimrc---------------"
 wget -O - https://raw.githubusercontent.com/chengscott/system-prefs/master/ubuntu16.04/vimrc
-$sudo cp -f vimrc /etc/vim/
+mkdir ~/.vim
+mv vimrc ~/.vim/
 
 echo "---------------Configure Git---------------"
 if [ -z $(git config user.name) ]; then

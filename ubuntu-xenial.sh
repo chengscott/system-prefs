@@ -12,23 +12,16 @@ timedatectl
 
 echo "---------------APT Update and Install---------------"
 $sudo apt update &&\
-   $sudo apt install -y --no-install-recommends wget curl vim python-pip git &&\
+   $sudo apt install -y --no-install-recommends wget curl vim git python-dev python-pip python3 python3-dev &&\
    $sudo apt autoclean -y
 sudo -H pip install --upgrade pip
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+$sudo dpkg -i google-chrome-stable_current_amd64.deb
+# $sudo update-alternatives --config x-www-browser
 
 echo "---------------APT Remove Default Program---------------"
 $sudo apt purge -y webbrowser-app firefox &&\
    $sudo apt autoremove
-
-if ! which google-chrome-stable > /dev/null; then
-    echo "Install google-chrome-stable"
-    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | $sudo tee --append /etc/apt/sources.list
-    wget https://dl.google.com/linux/linux_signing_key.pub
-    $sudo apt-key add linux_signing_key.pub &&\
-      $sudo apt update
-    $sudo apt install -y google-chrome-stable
-fi
-# $sudo update-alternatives --config x-www-browser
 
 echo "---------------Install Paper Theme---------------"
 $sudo add-apt-repository ppa:snwh/pulp -y &&\
@@ -47,36 +40,21 @@ powerline-daemon -q
 source /usr/local/lib/python2.7/dist-packages/powerline/bindings/bash/powerline.sh
 " >> ~/.bashrc 
 
-echo "---------------Copying Vimrc---------------"
-wget -O - https://raw.githubusercontent.com/chengscott/system-prefs/master/ubuntu16.04/vimrc
-mkdir ~/.vim
-mv vimrc ~/.vim/
-
-echo "---------------Configure Git---------------"
-if [ -z $(git config user.name) ]; then
-    echo "username:"
-    read git_name
-    git config --global user.name $git_name
-    git config --global credential.https://github.com $git_name
-fi
-if [ -z $(git config user.email) ]; then
-    echo "email:"
-    read git_email
-    git config --global user.email $git_email
-fi
-git config --global push.default simple
-git config --global core.editor vim
-git config --global color.ui auto
-git config --global ui.abbrevCommit yes
-git config --global credential.helper 'cache --timeout=3600'
+echo "---------------Config---------------"
+# vim
+mv dotfiles/vimrc ~/.vimrc
+# git
+: ${name:=chengscott}
+: ${email:=60510scott@gmail.com}
+chmod +x dotfiles/git.sh
+name=$name email=$email dotfiles/git.sh
 
 echo "Setup a Develpment environment? [Y/n]"
 read is_dev
 if [ $is_dev -ne "n" ]; then
     $sudo apt update &&\
       $sudo apt install -y --no-install-recommends\
-        build-essential mysql-client libmysqlclient-dev\
-        python-dev python3 python3-dev
+        build-essential mysql-client libmysqlclient-dev
 
     #echo "Install mysql-workbench-community"
 

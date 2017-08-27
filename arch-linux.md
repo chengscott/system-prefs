@@ -1,18 +1,19 @@
 # Arch Linux
 
-## Download
+## Download Mirror
 
-[NCTU mirror](http://archlinux.cs.nctu.edu.tw/iso/)
+- [NCTU mirror](http://archlinux.cs.nctu.edu.tw/iso/)
 
-## Disk
+## Partition
 
 - `lsblk` for listing block devices
+- [UEFI/GPT example layout](https://wiki.archlinux.org/index.php/Partitioning#UEFI.2FGPT_example_layout)
 - `fdisk /dev/sdb` for partitioning hard drive
     - `g` for GPT partition
     - `n` new partition
     - `t` change partition type
     - `w` write and exit
-- build file systems
+- format partitions
     - `mkfs.fat /dev/sdb1`
     - `mkswap /dev/sdb2`
     - `mkfs.ext4 /dev/sdb3`
@@ -20,10 +21,10 @@
 ## Mount
 
 - `mount /dev/sdb3 /mnt`
+- `mkdir /mnt/boot`
 - `mount /dev/sdb1 /mnt/boot`
-    - may need `mkdir /mnt/boot`
 
-## Install
+## Base System
 
 - `pacstrap /mnt base base-devel`
 - `genfstab -U /mnt >> /mnt/etc/fstab`
@@ -32,14 +33,11 @@
 
 - `arch-chroot /mnt`
 - `echo hostname > /etc/hostname`
-- `ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime`
-    - may `mv` exists file to backup
-- `vim /etc/locale.gen`
-    - uncomment the `en_US.UTF-8 UTF-8`
-- `vim /etc/locale.conf`
-    - create and paste `LANG="en_US.UTF-8"`
+- `ln -sf /usr/share/zoneinfo/Asia/Taipei /etc/localtime`
+- `echo 'LANG=en_US.UTF-8' > /etc/locale.conf`
+- `echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen`
 - `locale-gen`
-- `passwd # for root password`
+- `passwd` for root password
 
 ## Boot
 
@@ -70,31 +68,49 @@
     - `rmmod b34 b43legacy ssb bcm43xx brcm80211 brcmfmac brcmsmac bcma wl`
     - `modprobe wl`
     - linux-headers
+- `systemctl start dhcpd # after reboot`
 - networkmanager
+    - `systemctl start NetworkManager`
+    - `systemctl enable NetworkManager`
 - network-manager-applet
-- `systemctl start NetworkManager`
-- `systemctl enable NetworkManager`
 - gnome-keyring
 
-## AUR
+## Input Method Framework
+
+- noto-fonts-cjk
+- [fcitx Usage](https://wiki.archlinux.org/index.php/fcitx#Non_desktop_environment)
+- fcitx
+- fcitx-chewing
+- fcitx-im
+
+## Desktop Environment
+
+- budgie-desktop
+- gnome-tweak-tool
+- [paper icon theme - AUR](https://aur.archlinux.org/packages/paper-icon-theme-git/)
+- [paper gtk theme - AUR](https://aur.archlinux.org/packages/paper-gtk-theme-git/)
+- gnome-terminal
+- gnome-screenshot
+- vlc
+- chromium
 
 ## Utils
 
-- `systemctl start dhcpd`
-- IME
-    - fcitx
-    - fcitx-im
-- fonts
-    - noto-fonts-cjk
-- Desktop
-    - budgie-desktop
-- tools
-    - chromium
-    - vlc
-    - aria2
-    - gnome-tweak-tool
-- dev tools
-    - atom
-    - openssh
-    - gnome-terminal
+- aria2
+- atom
+- git
+- openconnect
+- openssh
+    - `chmod 600 ~/.ssh/config`
+```bash=
+Host demo
+HostName 10.0.0.1
+User chengscott
+Port 22
+IdentityFile ~/.ssh/demo.pem
+```
+- rsync
+- tmux
+    - [tmux cheatsheet](https://gist.github.com/MohamedAlaa/2961058)
+- vim
 

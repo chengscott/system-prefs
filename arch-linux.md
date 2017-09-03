@@ -35,7 +35,7 @@
 - `echo hostname > /etc/hostname`
 - `ln -sf /usr/share/zoneinfo/Asia/Taipei /etc/localtime`
 - `echo 'LANG=en_US.UTF-8' > /etc/locale.conf`
-- `echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen`
+- `echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen`
 - `locale-gen`
 - `passwd` for root password
 
@@ -79,18 +79,16 @@
 
 - noto-fonts-cjk
 - [fcitx Usage](https://wiki.archlinux.org/index.php/fcitx#Non_desktop_environment)
-- fcitx
-- fcitx-chewing
 - fcitx-im
+- fcitx-chewing
 
 ## Desktop Environment
 
-- budgie-desktop
+- gnome-shell
 - gnome-tweak-tool
 - [paper icon theme - AUR](https://aur.archlinux.org/packages/paper-icon-theme-git/)
 - [paper gtk theme - AUR](https://aur.archlinux.org/packages/paper-gtk-theme-git/)
-- gnome-terminal
-- gnome-screenshot
+- gnome-{screenshot,terminal}
 - vlc
 - chromium
 
@@ -110,7 +108,10 @@ Port 22
 IdentityFile ~/.ssh/demo.pem
 ```
 - rsync
+- traceroute
+- tree
 - tmux
+    - `echo 'set -g mouse on' >> ~/.tmux.conf`
     - [tmux cheatsheet](https://gist.github.com/MohamedAlaa/2961058)
 - vim
 

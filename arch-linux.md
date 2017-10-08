@@ -73,7 +73,22 @@
     - `systemctl start NetworkManager`
     - `systemctl enable NetworkManager`
 - network-manager-applet
+- networkmanager-{openvpn,pptp}
 - gnome-keyring
+- openssh
+    - `chmod 600 ~/.ssh/config`
+```bash=
+Host demo
+HostName 10.0.0.1
+User chengscott
+Port 22
+IdentityFile ~/.ssh/demo.pem
+LocalForward 8888 localhost:8888
+```
+- openvpn
+- openconnect
+    - `openconnect -u user@realm --juniper sslvpn.twaren.net`
+- sshfs
 
 ## Input Method Framework
 
@@ -92,26 +107,27 @@
 - vlc
 - chromium
 
+## Printer
+
+- cups
+    - `systemctl start org.cups.cupsd.service`
+    - `systemctl enable org.cups.cupsd.service`
+    -  `localhost:631`
+- cups-pdf
+- gtk3-print-backends
+
 ## Utils
 
 - aria2
-- atom
+- fish
+    - `chsh -s \`which fish\``
 - git
-- openconnect
-- openssh
-    - `chmod 600 ~/.ssh/config`
-```bash=
-Host demo
-HostName 10.0.0.1
-User chengscott
-Port 22
-IdentityFile ~/.ssh/demo.pem
-```
 - rsync
-- traceroute
 - tree
 - tmux
     - `echo 'set -g mouse on' >> ~/.tmux.conf`
     - [tmux cheatsheet](https://gist.github.com/MohamedAlaa/2961058)
 - vim
+- jdk8-openjdk
+- icedtea-web
 

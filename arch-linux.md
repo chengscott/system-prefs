@@ -120,7 +120,7 @@ LocalForward 8888 localhost:8888
 
 - aria2
 - fish
-    - `chsh -s \`which fish\``
+    - ``chsh -s `which fish```
 - git
 - rsync
 - tree

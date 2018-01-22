@@ -3,72 +3,67 @@
 ## Download Mirror
 
 - [NCTU mirror](http://archlinux.cs.nctu.edu.tw/iso/)
+- `dd bs=4M if=/path/to/archlinux.iso of=/dev/sdx status=progress oflag=sync`
 
 ## Partition
 
-- `lsblk` for listing block devices
-- [UEFI/GPT example layout](https://wiki.archlinux.org/index.php/Partitioning#UEFI.2FGPT_example_layout)
-- `fdisk /dev/sdb` for partitioning hard drive
-    - `g` for GPT partition
-    - `n` new partition
-    - `t` change partition type
-    - `w` write and exit
+- `lsblk -f` list block devices with filesystems
+- `fdisk -l` list partition tables
+- [GPT + UEFI example layout](https://wiki.archlinux.org/index.php/Partitioning#GPT_.2B_UEFI_example_layout)
+- `fdisk /dev/sdb` manipulate disk partition table
+    - `g` creates a new empty GPT partition table
+    - `n` add a new partition
+    - `t` change a partition type
+    - `w` write table to disk and exit
 - format partitions
     - `mkfs.fat /dev/sdb1`
     - `mkswap /dev/sdb2`
     - `mkfs.ext4 /dev/sdb3`
-
-## Mount
-
-- `mount /dev/sdb3 /mnt`
-- `mkdir /mnt/boot`
-- `mount /dev/sdb1 /mnt/boot`
+- mount
+    - `mount /dev/sdb3 /mnt`
+    - `mkdir /mnt/boot`
+    - `mount /dev/sdb1 /mnt/boot`
 
 ## Base System
 
 - `pacstrap /mnt base base-devel`
 - `genfstab -U /mnt >> /mnt/etc/fstab`
 
-## Settings
+## Boot loader
 
 - `arch-chroot /mnt`
-- `echo hostname > /etc/hostname`
-- `ln -sf /usr/share/zoneinfo/Asia/Taipei /etc/localtime`
-- `echo 'LANG=en_US.UTF-8' > /etc/locale.conf`
-- `echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen`
-- `locale-gen`
-- `passwd` for root password
-
-## Boot
-
 - `mkinitcpio -p linux`
 - `pacman -S grub efibootmgr`
-- `grub-install --target=x86_64-efi --efi-directory=/dev/sdb1 --bootloader-id=grub`
+- for dual boot, install and run `os-prober`
+- `grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub`
 - `grub-mkconfig -o /boot/grub/grub.cfg`
 
-## User
 
-- `useradd -m -G wheel chengscott`
-- `passwd chengscott`
-- `visudo`
+## Configs
 
-## GUI & XServer
-
-- xf86-video-intel
-- nvidia
-- bumblebee
-- xorg-server
-- xorg-xinit
-    - `cp /etc/X11/xinit/xinitrc ~/.xinitrc`
-    - setup desktop environment
+- `echo hostname > /etc/hostname`
+- `passwd` set the root password
+- Time zone
+    - `timedatectl set-ntp true`
+    - `hwclock --systohc`
+    - `ln -sf /usr/share/zoneinfo/Asia/Taipei /etc/localtime`
+- Locale
+    - `echo 'LANG=en_US.UTF-8' > /etc/locale.conf`
+    - `echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen`
+    - `locale-gen`
+- User
+    - `useradd -m -G wheel chengscott`
+    - `passwd chengscott`
+    - `visudo`
 
 ## Network
 
-- broadcom-wl-dkms
-    - `rmmod b34 b43legacy ssb bcm43xx brcm80211 brcmfmac brcmsmac bcma wl`
+- [Broadcom wireless](https://wiki.archlinux.org/index.php/broadcom_wireless#Installation)
+    - `pacman -S broadcom-wl-dkms linux-headers`
+    - `rmmod b43 ssb`
+    - `depmod -a`
     - `modprobe wl`
-    - linux-headers
-- `systemctl start dhcpd # after reboot`
+- `systemctl start dhcpcd # after reboot`
 - networkmanager
     - `systemctl start NetworkManager`
     - `systemctl enable NetworkManager`
@@ -76,6 +71,8 @@
 - networkmanager-{openvpn,pptp}
 - gnome-keyring
 - openssh
+    - `ssh-keygen -t ed25519`
+    - `ssh-copy-id host`
     - `chmod 600 ~/.ssh/config`
 ```bash=
 Host demo
@@ -90,22 +87,25 @@ LocalForward 8888 localhost:8888
     - `openconnect -u user@realm --juniper sslvpn.twaren.net`
 - sshfs
 
+## Xorg & Desktop Environment
+
+- `pacman -S xf86-video-intel nvidia bumblebee xorg-server xorg-xinit`
+- gnome-shell
+    - `cp /etc/X11/xinit/xinitrc ~/.xinitrc`
+    - modify `~/.xinitrc` and append `exec gnome-session`
+- `yay -S paper-icon-theme-git paper-gtk-theme-git chrome-gnome-shell-git`
+- `pacman -S gnome-{tweak-tool, screenshot,terminal} nautilus evince eog vlc chromium`
+
 ## Input Method Framework
 
 - noto-fonts-cjk
-- [fcitx Usage](https://wiki.archlinux.org/index.php/fcitx#Non_desktop_environment)
-- fcitx-im
-- fcitx-chewing
-
-## Desktop Environment
-
-- gnome-shell
-- gnome-tweak-tool
-- [paper icon theme - AUR](https://aur.archlinux.org/packages/paper-icon-theme-git/)
-- [paper gtk theme - AUR](https://aur.archlinux.org/packages/paper-gtk-theme-git/)
-- gnome-{screenshot,terminal}
-- vlc
-- chromium
+- [fcitx Usage](https://wiki.archlinux.org/index.php/fcitx#Usage)
+- `pacman -S fcitx-{im, chewing, configtool}`
+```bash=
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+```
 
 ## Printer
 
@@ -118,16 +118,15 @@ LocalForward 8888 localhost:8888
 
 ## Utils
 
-- aria2
+- `pacman -S git wget aria2 rsync time tree htop lsof cpupower bsdtar darkhttpd`
+- `pacman -S jdk8-openjdk icedtea-web`
+- `pacman -S gdb clang python-pip cuda cudnn`
 - fish
-    - ``chsh -s `which fish```
-- git
-- rsync
-- tree
+    - chsh -s `which fish`
 - tmux
     - `echo 'set -g mouse on' >> ~/.tmux.conf`
     - [tmux cheatsheet](https://gist.github.com/MohamedAlaa/2961058)
-- vim
-- jdk8-openjdk
-- icedtea-web
+- [yay - AUR](https://aur.archlinux.org/packages/yay/)
+    - `git clone https://aur.archlinux.org/yay.git `
+    - `makepkg -si`
 

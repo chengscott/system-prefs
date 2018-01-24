@@ -64,28 +64,10 @@
     - `depmod -a`
     - `modprobe wl`
 - `systemctl start dhcpcd # after reboot`
-- networkmanager
+- `pacman -S openssh openvpn openconnect sshfs`
+- `pacman -S networkmanager networkmanager-{openvpn,openconnect,pptp} network-manager-applet gnome-keyring`
     - `systemctl start NetworkManager`
     - `systemctl enable NetworkManager`
-- network-manager-applet
-- networkmanager-{openvpn,pptp}
-- gnome-keyring
-- openssh
-    - `ssh-keygen -t ed25519`
-    - `ssh-copy-id host`
-    - `chmod 600 ~/.ssh/config`
-```bash=
-Host demo
-HostName 10.0.0.1
-User chengscott
-Port 22
-IdentityFile ~/.ssh/demo.pem
-LocalForward 8888 localhost:8888
-```
-- openvpn
-- openconnect
-    - `openconnect -u user@realm --juniper sslvpn.twaren.net`
-- sshfs
 
 ## Xorg & Desktop Environment
 
@@ -94,39 +76,29 @@ LocalForward 8888 localhost:8888
     - `cp /etc/X11/xinit/xinitrc ~/.xinitrc`
     - modify `~/.xinitrc` and append `exec gnome-session`
 - `yay -S paper-icon-theme-git paper-gtk-theme-git chrome-gnome-shell-git`
-- `pacman -S gnome-{tweak-tool, screenshot,terminal} nautilus evince eog vlc chromium`
+- `pacman -S gnome-{tweak-tool,screenshot,terminal,calculator} nautilus evince eog vlc chromium`
 
 ## Input Method Framework
 
 - noto-fonts-cjk
 - [fcitx Usage](https://wiki.archlinux.org/index.php/fcitx#Usage)
-- `pacman -S fcitx-{im, chewing, configtool}`
+- `pacman -S fcitx-{im,chewing,configtool}`
 ```bash=
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
 ```
 
-## Printer
-
-- cups
-    - `systemctl start org.cups.cupsd.service`
-    - `systemctl enable org.cups.cupsd.service`
-    -  `localhost:631`
-- cups-pdf
-- gtk3-print-backends
-
 ## Utils
 
-- `pacman -S git wget aria2 rsync time tree htop lsof cpupower bsdtar darkhttpd`
+- `pacman -S fish tmux git wget aria2 rsync time tree htop lsof cpupower darkhttpd`
 - `pacman -S jdk8-openjdk icedtea-web`
 - `pacman -S gdb clang python-pip cuda cudnn`
-- fish
-    - chsh -s `which fish`
-- tmux
-    - `echo 'set -g mouse on' >> ~/.tmux.conf`
-    - [tmux cheatsheet](https://gist.github.com/MohamedAlaa/2961058)
+- `yay -S visual-studio-code-bin`
 - [yay - AUR](https://aur.archlinux.org/packages/yay/)
     - `git clone https://aur.archlinux.org/yay.git `
     - `makepkg -si`
-
+- `pacman -S epson-inkjet-printer-201310w cups cups-pdf gtk3-print-backends`
+    - `systemctl start org.cups.cupsd.service`
+    - `systemctl enable org.cups.cupsd.service`
+    -  `localhost:631`

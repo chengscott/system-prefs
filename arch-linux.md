@@ -9,7 +9,7 @@
 
 - `lsblk -f` list block devices with filesystems
 - `fdisk -l` list partition tables
-- [GPT + UEFI example layout](https://wiki.archlinux.org/index.php/Partitioning#GPT_.2B_UEFI_example_layout)
+- [UEFI/GPT example layout](https://wiki.archlinux.org/index.php/Partitioning#UEFI.2FGPT_example_layout)
 - `fdisk /dev/sdb` manipulate disk partition table
     - `g` creates a new empty GPT partition table
     - `n` add a new partition
@@ -76,7 +76,7 @@
     - `cp /etc/X11/xinit/xinitrc ~/.xinitrc`
     - modify `~/.xinitrc` and append `exec gnome-session`
 - `yay -S paper-icon-theme-git paper-gtk-theme-git chrome-gnome-shell-git`
-- `pacman -S gnome-{tweak-tool,screenshot,terminal,calculator} nautilus evince eog vlc chromium`
+- `pacman -S gnome-{tweak,screenshot,terminal,calculator} nautilus evince eog vlc chromium`
 
 ## Input Method Framework
 
@@ -98,7 +98,7 @@ export XMODIFIERS=@im=fcitx
 - [yay - AUR](https://aur.archlinux.org/packages/yay/)
     - `git clone https://aur.archlinux.org/yay.git `
     - `makepkg -si`
-- `pacman -S epson-inkjet-printer-201310w cups cups-pdf gtk3-print-backends`
+- `pacman -S sane cups cups-pdf gtk3-print-backends epson-inkjet-printer-201310w`
     - `systemctl start org.cups.cupsd.service`
     - `systemctl enable org.cups.cupsd.service`
-    -  `localhost:631`
+    - `localhost:631`

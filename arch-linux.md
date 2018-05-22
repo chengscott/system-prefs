@@ -26,18 +26,15 @@
 
 ## Base System
 
-- `pacstrap /mnt base base-devel`
+- `pacstrap /mnt base base-devel grub efibootmgr intel-ucode`
 - `genfstab -U /mnt >> /mnt/etc/fstab`
 
 ## Boot loader
 
 - `arch-chroot /mnt`
-- `mkinitcpio -p linux`
-- `pacman -S grub efibootmgr`
 - for dual boot, install and run `os-prober`
 - `grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub`
 - `grub-mkconfig -o /boot/grub/grub.cfg`
-
 
 ## Configs
 
@@ -65,9 +62,8 @@
     - `modprobe wl`
 - `systemctl start dhcpcd # after reboot`
 - `pacman -S openssh openvpn openconnect sshfs`
-- `pacman -S networkmanager networkmanager-{openvpn,openconnect,pptp} network-manager-applet gnome-keyring`
-    - `systemctl start NetworkManager`
-    - `systemctl enable NetworkManager`
+- `pacman -S networkmanager networkmanager-{openvpn,openconnect} network-manager-applet gnome-keyring`
+    - `systemctl enable --now NetworkManager`
 
 ## Xorg & Desktop Environment
 
@@ -91,14 +87,14 @@ export XMODIFIERS=@im=fcitx
 
 ## Utils
 
-- `pacman -S fish tmux git wget aria2 rsync time tree htop lsof cpupower darkhttpd`
+- `pacman -S fish tmux git wget aria2 rsync time tree htop darkhttpd`
+- `pacman -S cuda gdb clang python-pip jupyter-notebook`
 - `pacman -S jdk8-openjdk icedtea-web`
-- `pacman -S gdb clang python-pip cuda cudnn`
-- `yay -S visual-studio-code-bin`
+- `pacman -S hwloc cpupower numactl lsof cmake perf valgrind nmap cudnn`
 - [yay - AUR](https://aur.archlinux.org/packages/yay/)
     - `git clone https://aur.archlinux.org/yay.git `
     - `makepkg -si`
+- `yay -S visual-studio-code-bin`
 - `pacman -S sane cups cups-pdf gtk3-print-backends epson-inkjet-printer-201310w`
-    - `systemctl start org.cups.cupsd.service`
-    - `systemctl enable org.cups.cupsd.service`
+    - `systemctl enable --now org.cups.cupsd.service`
     - `localhost:631`

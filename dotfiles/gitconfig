@@ -1,0 +1,21 @@
+[user]
+        name = chengscott
+        email = 60510scott@gmail.com
+[core]
+        editor = vim
+[push]
+        default = simple
+[color]
+        branch = auto
+        diff = auto
+        interactive = auto
+        status = auto
+        ui = auto
+[ui]
+        abbrevCommit = yes
+[credential "https://github.com"]
+        username = chengscott
+[credential "https://gitlab.com"]
+        username = chengscott
+[credential]
+        helper = cache --timeout=3600

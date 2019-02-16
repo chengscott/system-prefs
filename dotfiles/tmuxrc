@@ -1,0 +1,4 @@
+set -g mouse on
+
+set-option -g default-terminal "screen-256color"
+#source /usr/share/powerline/bindings/tmux/powerline.conf

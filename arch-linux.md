@@ -66,7 +66,11 @@
 - `pacman -S xorg-server xorg-xinit xf86-video-intel nvidia bumblebee`
 - gnome-shell
     - `cp /etc/X11/xinit/xinitrc ~/.xinitrc`
-    - modify `~/.xinitrc` and append `exec gnome-session`
+    - modify `~/.xinitrc`
+```bash=
+export XDG_SESSION_TYPE=x11
+exec gnome-session
+```
 - `yay -S paper-icon-theme-git paper-gtk-theme-git chrome-gnome-shell-git`
 - `pacman -S gnome-{tweaks,screenshot,terminal,calculator} nautilus evince eog vlc chromium`
 

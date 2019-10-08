@@ -3,38 +3,40 @@
 ## Download
 
 - [NCTU mirror](http://archlinux.cs.nctu.edu.tw/iso/)
-- `dd bs=4M status=progress oflag=sync if=/path/to/archlinux.iso of=/dev/sdx`
+- `dd bs=4M status=progress oflag=sync if=/path/to/archlinux.iso of=/dev/sdz`
 
 ## Partition
 
 - `lsblk -f` list block devices with filesystems
 - `fdisk -l` list partition tables
 - [UEFI/GPT example layout](https://wiki.archlinux.org/index.php/Partitioning#UEFI.2FGPT_example_layout)
-- `fdisk /dev/sdb` manipulate disk partition table
+- `fdisk /dev/sdx` manipulate disk partition table
     - `g` creates a new empty GPT partition table
     - `n` add a new partition
     - `t` change a partition type
     - `w` write table to disk and exit
 - format partitions
-    - `mkfs.fat /dev/sdb1`
-    - `mkswap /dev/sdb2`
-    - `mkfs.ext4 /dev/sdb3`
+    - `mkfs.fat /dev/sdx1`
+    - `mkswap /dev/sdx2`
+    - `mkfs.ext4 /dev/sdx3`
 - mount
-    - `mount /dev/sdb3 /mnt`
-    - `mkdir /mnt/boot`
-    - `mount /dev/sdb1 /mnt/boot`
+    - `mount /dev/sdx3 /mnt`
+    - (UEFI) `mkdir /mnt/boot`
+    - (UEFI) `mount /dev/sdb1 /mnt/boot`
 
 ## Base System
 
 - (select mirrors in `/etc/pacman.d/mirrorlist`)
-- `pacstrap /mnt base base-devel grub efibootmgr intel-ucode`
+- `pacstrap /mnt linux base base-devel grub vim`
+  - optional: `efibootmgr intel-ucode amd-ucode`
   - for dual boot, install `os-prober`
 - `genfstab -U /mnt >> /mnt/etc/fstab`
 
 ## Boot loader
 
 - `arch-chroot /mnt`
-- `grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub`
+- (UEFI) `grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub`
+- (BIOS) `grub-install /dev/sdx`
 - `grub-mkconfig -o /boot/grub/grub.cfg`
 
 ## Configs
@@ -56,7 +58,7 @@
 
 ## Network
 
-- `systemctl start dhcpcd # after reboot`
+- (`systemctl start dhcpcd`)
 - `pacman -S openssh openvpn openconnect sshfs`
 - `pacman -S networkmanager networkmanager-{openvpn,openconnect} network-manager-applet gnome-keyring`
     - `systemctl enable --now NetworkManager`
@@ -64,11 +66,12 @@
 ## Graphical User Interface
 
 - `pacman -S xorg-server xorg-xinit xf86-video-intel nvidia bumblebee`
-- gnome-shell
+- `gnome-shell`
     - `cp /etc/X11/xinit/xinitrc ~/.xinitrc`
     - modify `~/.xinitrc`
 ```bash=
 export XDG_SESSION_TYPE=x11
+export GDK_BACKEND=x11
 exec gnome-session
 ```
 - `yay -S paper-icon-theme-git paper-gtk-theme-git chrome-gnome-shell-git`
@@ -87,9 +90,9 @@ export XMODIFIERS=@im=fcitx
 
 ## Utils
 
-- `pacman -S fish tmux code git wget aria2 rsync time tree htop`
-- `pacman -S cuda cudnn gdb clang python-pip jupyter-notebook`
-- `pacman -S darkhttpd cpupower lsof nmap`
+- `pacman -S fish tmux git wget aria2 rsync time tree htop lsof`
+- `pacman -S cuda cudnn gdb clang python-pip darkhttpd`
+- `yay -S visual-studio-code-bin`
 - [yay - AUR](https://aur.archlinux.org/packages/yay/)
     - `git clone https://aur.archlinux.org/yay.git `
     - `makepkg -si`

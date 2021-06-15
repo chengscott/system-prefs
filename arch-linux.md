@@ -96,9 +96,15 @@ export XMODIFIERS=@im=fcitx
 - [yay - AUR](https://aur.archlinux.org/packages/yay/)
     - `git clone https://aur.archlinux.org/yay.git `
     - `makepkg -si`
-- `pacman -S sane cups cups-pdf gtk3-print-backends epson-inkjet-printer-201310w`
+- (Printer) `pacman -S cups cups-pdf gtk3-print-backends`
     - `systemctl start org.cups.cupsd.service`
     - `localhost:631`
+- (Network Printer) `pacman -S nss-mdns`
+    - `systemctl start avahi-daemon`
+    - modify `/etc/nsswitch.conf`
+```
+hosts: ... mdns_minimal [NOTFOUND=return] resolve [!UNAVAIL=return] dns ...
+```
 
 ## Misc
 

@@ -1,22 +1,9 @@
 syntax on
-
-set autoindent
-set autoread
-" set cursorline
-set showmatch
-set number
-set smartcase
-" search
-set hlsearch
-set incsearch
-" tab
-set tabstop=4
-set shiftwidth=4
-set expandtab
-
-" powerline
-"set laststatus=2
-"set t_Co=256
-"python3 from powerline.vim import setup as powerline_setup
-"python3 powerline_setup()
-"python3 del powerline_setup
+colorscheme elflord
+highlight LineNr ctermfg=gray
+set number ruler
+set autoindent smartindent
+set incsearch hlsearch
+set nowrap t_Co=256
+set fileencodings=utf8,big5,gbk,latin1
+set expandtab tabstop=4 shiftwidth=4

@@ -1,0 +1,8 @@
+Host *
+  Compression yes
+  ControlMaster auto
+  ControlPersist yes
+  ControlPath ~/.ssh/sockets/%r@%h:%p
+  ServerAliveInterval 10
+  #StrictHostKeyChecking no
+  #UserKnownHostsFile /dev/null

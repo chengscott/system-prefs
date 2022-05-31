@@ -3,6 +3,7 @@
         email = 60510scott@gmail.com
 [core]
         editor = vim
+        excludesfile = ~/.gitignore
 [push]
         default = simple
 [color]

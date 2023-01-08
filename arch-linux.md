@@ -2,7 +2,7 @@
 
 ## Download
 
-- [NCTU mirror](http://archlinux.cs.nctu.edu.tw/iso/)
+- [NYCU mirror](https://archlinux.cs.nycu.edu.tw/iso/)
 - `dd bs=4M status=progress oflag=sync if=/path/to/archlinux.iso of=/dev/sdz`
 
 ## Partition
@@ -18,26 +18,30 @@
 - format partitions
     - `mkfs.fat /dev/sdx1`
     - `mkswap /dev/sdx2`
-    - `mkfs.ext4 /dev/sdx3`
+    - `mkfs.ext4 -L arch /dev/sdx3`
 - mount
     - `mount /dev/sdx3 /mnt`
-    - (UEFI) `mkdir /mnt/boot`
-    - (UEFI) `mount /dev/sdb1 /mnt/boot`
+    - (UEFI) `mount --mkdir /dev/sdb1 /mnt/boot`
 
 ## Base System
 
 - (select mirrors in `/etc/pacman.d/mirrorlist`)
-- `pacstrap /mnt linux base base-devel grub vim`
-  - optional: `efibootmgr intel-ucode amd-ucode`
+- `pacstrap /mnt linux linux-firmware base base-devel`
+  - optional: `efibootmgr intel-ucode amd-ucode grub vim xfsprogs`
   - for dual boot, install `os-prober`
 - `genfstab -U /mnt >> /mnt/etc/fstab`
 
-## Boot loader
+## Boot loader (grub)
 
 - `arch-chroot /mnt`
 - (UEFI) `grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub`
 - (BIOS) `grub-install /dev/sdx`
 - `grub-mkconfig -o /boot/grub/grub.cfg`
+
+## Boot loader (systemd)
+
+- `bootctl install`
+- `systemctl enable systemd-boot-update`
 
 ## Configs
 
@@ -105,6 +109,11 @@ export XMODIFIERS=@im=fcitx
 ```
 hosts: ... mdns_minimal [NOTFOUND=return] resolve [!UNAVAIL=return] dns ...
 ```
+- (SSD): `systemctl enable --now fstrim.timer`
+- (SSH agents)
+    - `cp utils/ssh-agent.service /usr/lib/systemd/user`
+    - `cp utils/ssh-agent.sh /etc/profile.d/ssh-agent.sh`
+    - `systemctl --global enable --now ssh-agent`
 
 ## Misc
 

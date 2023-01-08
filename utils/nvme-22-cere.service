@@ -1,0 +1,11 @@
+[Unit]
+Description=Disable CERE (Correctable Error Reporting En.) for PCI device 0000:22:00.0 (NVME SSD)
+After=systemd-modules-load.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/setpci -v -s 0000:22:00.0 CAP_EXP+0x8.w=0x2936
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

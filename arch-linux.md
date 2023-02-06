@@ -114,6 +114,14 @@ hosts: ... mdns_minimal [NOTFOUND=return] resolve [!UNAVAIL=return] dns ...
     - `cp utils/ssh-agent.service /usr/lib/systemd/user`
     - `cp utils/ssh-agent.sh /etc/profile.d/ssh-agent.sh`
     - `systemctl --global enable --now ssh-agent`
+- (paccache) `pacman -S pacman-contrib`
+    - `systemctl enable --now paccache.timer`
+- (Podman) `pacman -S podman fuse-overlayfs`
+    - `yay -S nvidia-container-toolkit`
+- (Shared group folder)
+    - `chown -R :wheel /workspace`
+    - `chmod -R g+s /workspace`
+    - `setfacl -Rdm g::rwx /workspace`
 
 ## Misc
 

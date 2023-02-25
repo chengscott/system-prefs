@@ -9,7 +9,7 @@
 
 - `lsblk -f` list block devices with filesystems
 - `fdisk -l` list partition tables
-- [UEFI/GPT example layout](https://wiki.archlinux.org/index.php/Partitioning#UEFI.2FGPT_example_layout)
+- [UEFI/GPT example layout](https://wiki.archlinux.org/title/Partitioning#UEFI/GPT_layout_example)
 - `fdisk /dev/sdx` manipulate disk partition table
     - `g` creates a new empty GPT partition table
     - `n` add a new partition
@@ -84,7 +84,7 @@ exec gnome-session
 ## Input Method Framework
 
 - `pacman -S noto-fonts-cjk noto-fonts-emoji ttf-dejavu ttf-liberation`
-- [fcitx Usage](https://wiki.archlinux.org/index.php/fcitx#Usage)
+- [fcitx Usage](https://wiki.archlinux.org/title/Fcitx#Usage)
 - `pacman -S fcitx-{im,chewing,configtool}`
 ```bash=
 export GTK_IM_MODULE=fcitx
@@ -98,7 +98,7 @@ export XMODIFIERS=@im=fcitx
 - `pacman -S cuda cudnn gdb clang python-pip darkhttpd`
 - `yay -S visual-studio-code-bin`
 - [yay - AUR](https://aur.archlinux.org/packages/yay/)
-    - `git clone https://aur.archlinux.org/yay.git `
+    - `git clone https://aur.archlinux.org/yay.git`
     - `makepkg -si`
 - (Printer) `pacman -S cups cups-pdf gtk3-print-backends`
     - `systemctl start org.cups.cupsd.service`

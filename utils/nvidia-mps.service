@@ -1,0 +1,14 @@
+[Unit]
+Description=NVIDIA MPS
+After=nvidia-persistenced.service
+
+[Service]
+Type=oneshot
+ExecStartPre=nvidia-smi -c EXCLUSIVE_PROCESS
+ExecStart=nvidia-cuda-mps-control -d
+ExecStop=sh -c 'echo quit | nvidia-cuda-mps-control'
+ExecStopPost=nvidia-smi -c DEFAULT
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

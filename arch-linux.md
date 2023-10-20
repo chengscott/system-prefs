@@ -110,10 +110,7 @@ export XMODIFIERS=@im=fcitx
 hosts: ... mdns_minimal [NOTFOUND=return] resolve [!UNAVAIL=return] dns ...
 ```
 - (SSD): `systemctl enable --now fstrim.timer`
-- (SSH agents)
-    - `cp utils/ssh-agent.service /usr/lib/systemd/user`
-    - `cp utils/ssh-agent.sh /etc/profile.d/ssh-agent.sh`
-    - `systemctl --global enable --now ssh-agent`
+- (SSH agents): `systemctl --global enable --now ssh-agent`
 - (paccache) `pacman -S pacman-contrib`
     - `systemctl enable --now paccache.timer`
 - (Podman) `pacman -S podman fuse-overlayfs`

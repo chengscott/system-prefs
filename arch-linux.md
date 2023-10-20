@@ -64,6 +64,7 @@
 
 - (`systemctl start dhcpcd`)
 - `pacman -S openssh openvpn openconnect sshfs`
+    - `systemctl --global enable --now ssh-agent`
 - `pacman -S networkmanager networkmanager-{openvpn,openconnect} network-manager-applet gnome-keyring`
     - `systemctl enable --now NetworkManager`
 
@@ -92,6 +93,12 @@ export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
 ```
 
+## Disk
+
+- `pacman -S smartmontools nvme-cli mdadm`
+- `systemctl enable --now smartd`
+- (SSD) `systemctl enable --now fstrim.timer`
+
 ## Utils
 
 - `pacman -S fish tmux git wget aria2 rsync time tree htop lsof`
@@ -109,8 +116,8 @@ export XMODIFIERS=@im=fcitx
 ```
 hosts: ... mdns_minimal [NOTFOUND=return] resolve [!UNAVAIL=return] dns ...
 ```
-- (SSD): `systemctl enable --now fstrim.timer`
-- (SSH agents): `systemctl --global enable --now ssh-agent`
+- (irqbalance) `pacman -S irqbalance`
+    - `systemctl enable --now irqbalance`
 - (paccache) `pacman -S pacman-contrib`
     - `systemctl enable --now paccache.timer`
 - (Podman) `pacman -S podman fuse-overlayfs`

@@ -1,0 +1,4 @@
+Defaults timestamp_type=global
+Defaults timestamp_timeout=10
+
+%wheel ALL=(ALL:ALL) ALL

@@ -1,0 +1,15 @@
+[Unit]
+Description=NVIDIA MPS
+After=nvidia-persistenced.service
+
+[Service]
+Type=oneshot
+Environment=CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps-%u
+Environment=CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log-%u
+ExecStart=/usr/bin/nvidia-cuda-mps-control -d
+ExecStop=/usr/bin/sh -c 'echo quit | /usr/bin/nvidia-cuda-mps-control'
+PassEnvironment=CUDA_MPS_PIPE_DIRECTORY CUDA_MPS_LOG_DIRECTORY
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target

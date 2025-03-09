@@ -43,6 +43,13 @@
 - `bootctl install`
 - `systemctl enable systemd-boot-update`
 
+## Boot UKI-only
+
+- In `/etc/kernel/cmdline`: `root=UUID=XXXXXX rw quiet`
+- uncomment `{default,fallback}_uki` in `/etc/mkinitcpio.d/linux.preset`
+- `mkinicpio -P`
+- `efibootmgr -c -d /dev/sdx -p 1 -L arch -l '\EFI\Linux\arch-linux.efi' --unicode`
+
 ## Configs
 
 - `echo hostname > /etc/hostname`
@@ -120,8 +127,7 @@ hosts: ... mdns_minimal [NOTFOUND=return] resolve [!UNAVAIL=return] dns ...
     - `systemctl enable --now irqbalance`
 - (paccache) `pacman -S pacman-contrib`
     - `systemctl enable --now paccache.timer`
-- (Podman) `pacman -S podman fuse-overlayfs`
-    - `yay -S nvidia-container-toolkit`
+- (Podman) `pacman -S podman nvidia-container-toolkit`
 - (Shared group folder)
     - `chown -R :wheel /workspace`
     - `chmod -R g+s /workspace`

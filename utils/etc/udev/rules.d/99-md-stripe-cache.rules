@@ -1,0 +1,5 @@
+# Set high stripe cache for RAID5/6 arrays
+ACTION=="add|change", SUBSYSTEM=="block", KERNEL=="md*", ENV{DEVTYPE}=="disk", \
+  ATTR{md/level}=="raid5", ATTR{md/stripe_cache_size}="32768"
+ACTION=="add|change", SUBSYSTEM=="block", KERNEL=="md*", ENV{DEVTYPE}=="disk", \
+  ATTR{md/level}=="raid6", ATTR{md/stripe_cache_size}="32768"

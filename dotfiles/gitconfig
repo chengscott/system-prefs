@@ -20,3 +20,7 @@
         username = chengscott
 [credential]
         helper = cache --timeout=3600
+[safe]
+	directory = *
+[init]
+	defaultBranch = main

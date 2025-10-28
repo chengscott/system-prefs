@@ -1,9 +1,9 @@
 syntax on
-colorscheme elflord
+colorscheme habamax
 highlight LineNr ctermfg=gray
 set number ruler
 set autoindent smartindent
-set incsearch hlsearch
+set incsearch
 set nowrap t_Co=256
-set fileencodings=utf8,big5,gbk,latin1
+set fileencodings=utf8
 set expandtab tabstop=4 shiftwidth=4

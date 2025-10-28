@@ -135,10 +135,7 @@ hosts: ... mdns_minimal [NOTFOUND=return] resolve [!UNAVAIL=return] dns ...
 
 ## Misc
 
-- [ASUS X550JX](https://www.asus.com/Laptops/X550JX/specifications/) specs
-- [ASUS N550JX](https://wiki.archlinux.org/index.php/ASUS_N550JX) ref
-    - `nouveau` toubleshooting
-- [Broadcom wireless](https://wiki.archlinux.org/index.php/broadcom_wireless#Installation)
+- [Broadcom wireless](https://wiki.archlinux.org/title/Broadcom_wireless#Installation)
     - `pacman -S broadcom-wl-dkms linux-headers`
     - `rmmod b43 ssb`
     - `depmod -a`
